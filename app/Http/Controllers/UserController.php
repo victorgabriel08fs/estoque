@@ -5,23 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::paginate(10);
-        return view('users.index', ['users' => $users]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
+        $users = User::search($request)->paginate(10)->withQueryString();
+        return view('users.index', ['request' => $request, 'users' => $users]);
     }
 
     /**
@@ -29,7 +23,13 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        $data['password'] = bcrypt(User::createPassword());
+
+        $user = User::create($data);
+
+        return redirect()->back()->with('message', 'User created! The password was send to ' . $user->email);
     }
 
     /**
@@ -64,6 +64,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+        return redirect()->back()->with('message', 'User deleted');
     }
 }

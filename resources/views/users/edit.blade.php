@@ -1,11 +1,11 @@
 @extends('layouts.app')
 @section('content')
     <div class="col">
-        <div class="card">
-            <div class="card-body">
-                <form action="{{ route('users.update', $user) }}" method="post">
-                    @csrf
-                    @method('patch')
+        <form action="{{ route('users.update', $user) }}" method="post">
+            @csrf
+            @method('patch')
+            <div class="card">
+                <div class="card-body">
                     <div class="datagrid">
                         <div class="datagrid-item">
                             <div class="datagrid-title">Creator</div>
@@ -75,11 +75,14 @@
                         <div class="datagrid-item">
                         </div>
                         <div class="datagrid-item">
-                            <a href="{{ route('users.index') }}" class="btn btn-outline-secondary">Users</a>
-                            <button type="submit" class="btn btn-outline-primary">Update</button>
+
                         </div>
                     </div>
-                </form>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ route('users.index') }}" class="btn btn-outline-secondary">Users</a>
+                    <button type="submit" class="btn btn-outline-primary">Update</button>
+                </div>
             </div>
-        </div>
+        </form>
     @endsection

@@ -25,7 +25,8 @@ class UpdateUserRequest extends FormRequest
             'name' => ['required'],
             'phone' => ['required', 'numeric'],
             'permission_end_at' => ['nullable', 'date'],
-            'email' => ['required', 'email']
+            'email' => ['required', 'email'],
+            'type' => ['required']
         ];
     }
 }

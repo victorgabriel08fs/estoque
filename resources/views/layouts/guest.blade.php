@@ -41,6 +41,10 @@
     <link href="{{ asset('/dist/css/tabler-payments.min.css?1685973381') }}" rel="stylesheet" />
     <link href="{{ asset('/dist/css/tabler-vendors.min.css?1685973381') }}" rel="stylesheet" />
     <link href="{{ asset('/dist/css/demo.min.css?1685973381') }}" rel="stylesheet" />
+
+    {{-- jQuery --}}
+    <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
+        crossorigin="anonymous"></script>
     <style>
         @import url('https://rsms.me/inter/inter.css');
 

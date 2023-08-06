@@ -45,5 +45,9 @@
                     </div>
                 </div>
             </div>
+            <div class="card-footer">
+                <a href="{{ route('users.index') }}" class="btn btn-outline-secondary">Users</a>
+                <button type="submit" class="btn btn-outline-primary">Update</button>
+            </div>
         </div>
     @endsection

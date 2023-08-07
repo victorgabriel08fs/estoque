@@ -9,6 +9,14 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:View Users')->only(['index', 'show']);
+        $this->middleware('permission:Edit Users')->only(['update']);
+        $this->middleware('permission:Delete Users')->only(['destroy']);
+        $this->middleware('permission:Create Users')->only(['store']);
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -24,7 +32,7 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         $data = $request->validated();
-
+        $data['name'] = ucwords(strtolower($data['name']));
         $data['password'] = bcrypt(User::createPassword());
 
         $user = User::create($data);
@@ -56,6 +64,7 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         $data = $request->validated();
+        $data['name'] = ucwords(strtolower($data['name']));
         $user->update($data);
         if (!$user->hasRole($data['type'])) {
             $role = $user->roles->first();

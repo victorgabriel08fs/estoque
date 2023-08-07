@@ -29,6 +29,8 @@ class UserController extends Controller
 
         $user = User::create($data);
 
+        $user->assignRole($data['type']);
+
         return redirect()->back()->with('message', 'User created! The password was send to ' . $user->email);
     }
 
@@ -55,7 +57,12 @@ class UserController extends Controller
     {
         $data = $request->validated();
         $user->update($data);
-
+        if (!$user->hasRole($data['type'])) {
+            $role = $user->roles->first();
+            $user->assignRole($data['type']);
+            $user->removeRole($role);
+        }
+        $request->session()->forget(['name', 'email']);
         return redirect()->back()->with('message', 'User updated');
     }
 

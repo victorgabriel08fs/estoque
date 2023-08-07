@@ -14,7 +14,7 @@
 
 <div class="modal" id="editModal{{ $user->id }}" tabindex="-1">
     <div class="modal-dialog modal-lg" role="document">
-        <form action="{{ route('users.update', $user) }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('users.update', $user) }}" method="post">
             @csrf
             @method('patch')
             <div class="modal-content">
@@ -23,27 +23,22 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label">Avatar</label>
-                        <span class="mb-3 avatar avatar-xs me-2 rounded"
-                            style="background-image: url('https://avatars.githubusercontent.com/u/54713041?v=4')"></span>
-                        <input type="file" class="form-control" name="avatar"
-                            value="{{ old('avatar', $user->avatar) }}" />
-                    </div>
+
                     <div class="mb-3">
                         <label class="form-label">Name</label>
-                        <input type="text" class="form-control" name="name" value="{{ old('name', $user->name) }}"
-                            placeholder="User's name" />
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" name="name"
+                            value="{{ old('name', $user->name) }}" placeholder="User's name" />
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Email address</label>
-                        <input type="email" class="form-control" name="email"
+                        <input type="email" class="form-control @error('email') is-invalid @enderror" name="email"
                             value="{{ old('email', $user->email) }}" placeholder="User's email" />
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Phone number</label>
-                        <input type="text" class="form-control" data-mask="0000000000000" name="phone"
-                            value="{{ old('phone', $user->phone) }}" placeholder="User's phone" />
+                        <input type="text" class="form-control @error('phone') is-invalid @enderror"
+                            data-mask="0000000000000" name="phone" value="{{ old('phone', $user->phone) }}"
+                            placeholder="User's phone" />
                     </div>
                 </div>
                 <div class="modal-body">
@@ -52,7 +47,7 @@
                         <div class="col-md-6">
                             <label class="form-selectgroup-item">
                                 <input type="radio" name="type" value="User" class="form-selectgroup-input"
-                                    @checked(old('type') == 'User' || old('type') != 'Admin') />
+                                    @checked(old('type') == 'User' || old('type') != 'Admin' || (!session()->has('type') && $user->hasRole('User'))) />
                                 <span class="form-selectgroup-label d-flex align-items-center p-3">
                                     <span class="me-3">
                                         <span class="form-selectgroup-check"></span>
@@ -66,7 +61,7 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-selectgroup-item">
-                                <input @checked(old('type') == 'Admin') type="radio" name="type" value="Admin"
+                                <input @checked(old('type') == 'Admin' || (!session()->has('type') && $user->hasRole('Admin'))) type="radio" name="type" value="Admin"
                                     class="form-selectgroup-input" />
                                 <span class="form-selectgroup-label d-flex align-items-center p-3">
                                     <span class="me-3">

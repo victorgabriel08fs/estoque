@@ -242,35 +242,77 @@
                     <div class="dropdown-menu">
                         <div class="dropdown-menu-columns">
                             <div class="dropdown-menu-column">
-                                <a class="dropdown-item" href="{{ route('products.index') }}">
-                                    Products
-                                </a>
-                                <a class="dropdown-item" href="{{ route('categories.index') }}">
-                                    Categories
-                                </a>
-                                <a class="dropdown-item" href="{{ route('storages.index') }}">
-                                    Storages
-                                </a>
+                                @can('View Products')
+                                    <a class="dropdown-item" href="{{ route('products.index') }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="me-2 icon icon-tabler icon-tabler-list" width="24" height="24"
+                                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M9 6l11 0"></path>
+                                            <path d="M9 12l11 0"></path>
+                                            <path d="M9 18l11 0"></path>
+                                            <path d="M5 6l0 .01"></path>
+                                            <path d="M5 12l0 .01"></path>
+                                            <path d="M5 18l0 .01"></path>
+                                        </svg> Products
+                                    </a>
+                                @endcan
+                                @can('View Categories')
+                                    <a class="dropdown-item" href="{{ route('categories.index') }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="me-2 icon icon-tabler icon-tabler-list-details" width="24"
+                                            height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                            fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M13 5h8"></path>
+                                            <path d="M13 9h5"></path>
+                                            <path d="M13 15h8"></path>
+                                            <path d="M13 19h5"></path>
+                                            <path
+                                                d="M3 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z">
+                                            </path>
+                                            <path
+                                                d="M3 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z">
+                                            </path>
+                                        </svg> Categories
+                                    </a>
+                                @endcan
+                                @can('View Storages')
+                                    <a class="dropdown-item" href="{{ route('storages.index') }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="me-2 icon icon-tabler icon-tabler-building-warehouse" width="24"
+                                            height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                            fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M3 21v-13l9 -4l9 4v13"></path>
+                                            <path d="M13 13h4v8h-10v-6h6"></path>
+                                            <path d="M13 21v-9a1 1 0 0 0 -1 -1h-2a1 1 0 0 0 -1 1v3"></path>
+                                        </svg> Storages
+                                    </a>
+                                @endcan
                             </div>
                         </div>
                     </div>
                 </li>
-                <li class="nav-item {{ Route::currentRouteName() == 'users.index' ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('users.index') }}">
-                        <span class="nav-link-icon d-md-none d-lg-inline-block">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user"
-                                width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
-                                stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
-                                <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
-                            </svg>
-                        </span>
-                        <span class="nav-link-title">
-                            Users
-                        </span>
-                    </a>
-                </li>
+                @can('View Users')
+                    <li class="nav-item {{ Route::currentRouteName() == 'users.index' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('users.index') }}">
+                            <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user"
+                                    width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
+                                    stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+                                    <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
+                                </svg>
+                            </span>
+                            <span class="nav-link-title">
+                                Users
+                            </span>
+                        </a>
+                    </li>
+                @endcan
                 <li class="nav-item">
                     <form action="{{ route('logout') }}" method="post">
                         @csrf

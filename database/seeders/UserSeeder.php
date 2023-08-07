@@ -14,9 +14,10 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create(['name' => 'Admin', 'type' => 'Admin', 'email' => 'admin@admin.com', 'phone' => '5538991587105', 'permission_end_at' => '2023-08-20', 'password' => bcrypt('password')]);
-        User::create(['name' => 'Victor', 'email' => 'victor@admin.com', 'phone' => '5538991587105', 'permission_end_at' => '2023-08-20', 'password' => bcrypt('password')]);
-        User::create(['name' => 'Andressa', 'email' => 'andressa@admin.com', 'phone' => '5538991587105', 'permission_end_at' => '2023-08-20', 'password' => bcrypt('password')]);
-        // User::factory(50)->create();
+        $admin = User::create(['name' => 'Admin', 'type' => 'Admin', 'email' => 'admin@admin.com', 'phone' => '5538991587105', 'permission_end_at' => '2023-08-20', 'password' => bcrypt('password')]);
+        $user = User::create(['name' => 'Victor', 'email' => 'victor@admin.com', 'phone' => '5538991587105', 'permission_end_at' => '2023-08-20', 'password' => bcrypt('password')]);
+
+        $admin->assignRole('Admin');
+        $user->assignRole('User');
     }
 }

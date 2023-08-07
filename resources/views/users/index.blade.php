@@ -11,34 +11,25 @@
                     <div class="datagrid">
                         <div class="datagrid-item">
                             <div class="datagrid-title">Name</div>
-                            <div class="datagrid-content"><input type="search" name="name"
-                                    value="{{ old('name', $request->name) }}"
-                                    class="form-control @error('name') is-invalid @enderror" />
-                                @error('name')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
+                            <div class="datagrid-content"><input type="search" name="name" value="{{ old('name') }}"
+                                    class="form-control " />
                             </div>
                         </div>
                         <div class="datagrid-item">
                             <div class="datagrid-title">Email</div>
-                            <div class="datagrid-content"><input type="search" name="email"
-                                    value="{{ old('email', $request->email) }}"
-                                    class="form-control @error('email') is-invalid @enderror" />
-                                @error('email')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
+                            <div class="datagrid-content"><input type="search" name="email" value="{{ old('email') }}"
+                                    class="form-control" />
+
                             </div>
                         </div>
                         <div class="datagrid-item">
                             <div class="datagrid-title">Status</div>
-                            <select name="status" class="form-select @error('status') is-invalid @enderror">
+                            <select name="status" class="form-select">
                                 <option value="" hidden selected></option>
                                 <option @selected(old('status') == 'true' || $request->status == 'true') value="true">Active</option>
                                 <option @selected(old('status') == 'false' || $request->status == 'false') value="false">Desactive</option>
                             </select>
-                            @error('status')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+
                         </div>
                     </div>
                 </div>
@@ -65,6 +56,7 @@
                             <th scope="col">Name</th>
                             <th scope="col">Email</th>
                             <th scope="col">Status</th>
+                            <th scope="col">Role</th>
                             <th class="col-3" scope="col">Actions</th>
                         </tr>
                     </thead>
@@ -76,6 +68,9 @@
                                 <td>{{ $item['email'] }}</td>
                                 <td><span
                                         class="status status-{{ $item->active() ? 'green' : 'red' }}">{{ $item->active() ? 'Active' : 'Desactive' }}</span>
+                                </td>
+                                <td><span
+                                        class="status status-{{ $item->hasRole('User') ? 'blue' : 'purple' }}">{{ $item->hasRole('User') ? 'User' : 'Admin' }}</span>
                                 </td>
                                 <td>
                                     <div class="btn-group">

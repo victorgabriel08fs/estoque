@@ -20,7 +20,7 @@ class RoleController extends Controller
     public function index(Request $request)
     {
         $roles = Role::paginate(10);
-        $permissions = Permission::orderBy('name');
+        $permissions = Permission::orderBy('name')->get();
         return view('roles.index', ['permissions' => $permissions, 'request' => $request, 'roles' => $roles]);
     }
 
@@ -41,6 +41,7 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
+        dd($role->hasPermissionTo('View Users'));
         return view('roles.show', ['role' => $role]);
     }
 

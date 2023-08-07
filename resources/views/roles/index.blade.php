@@ -25,7 +25,7 @@
             </form>
             <div>
                 @can('Create Settings')
-                    @include('roles._partials.new_modal')
+                    @include('roles._partials.new_modal', ['permissions' => $permissions])
                 @endcan
             </div>
         </div>

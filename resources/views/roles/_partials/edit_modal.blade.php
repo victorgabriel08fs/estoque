@@ -29,8 +29,30 @@
                             value="{{ old('name', $role->name) }}" placeholder="Role's name" />
                     </div>
                 </div>
-                <div class="modal-body">
-
+                <div class="modal-body overflow-auto" style="height: 200px">
+                    <div class="row form-label">Permissions</div>
+                    <div class="row">
+                        <div class="col">
+                            @foreach ($permissions as $permission)
+                                @if ($loop->iteration <= $permissions->count() / 2)
+                                    <label class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" @checked($role->hasPermissionTo($permission->name))>
+                                        <span class="form-check-label">{{ $permission->name }}</span>
+                                    </label>
+                                @endif
+                            @endforeach
+                        </div>
+                        <div class="col">
+                            @foreach ($permissions as $permission)
+                                @if ($loop->iteration > $permissions->count() / 2)
+                                    <label class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" @checked($role->hasPermissionTo($permission->name))>
+                                        <span class="form-check-label">{{ $permission->name }}</span>
+                                    </label>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">

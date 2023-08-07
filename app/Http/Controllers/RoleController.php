@@ -2,26 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Role;
 use App\Http\Requests\StoreRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
+use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function __construct()
     {
-        //
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Display a listing of the resource.
      */
-    public function create()
+    public function index(Request $request)
     {
-        //
+        $roles = Role::paginate(10);
+        $permissions = Permission::orderBy('name');
+        return view('roles.index', ['permissions' => $permissions, 'request' => $request, 'roles' => $roles]);
     }
 
     /**
@@ -29,7 +29,11 @@ class RoleController extends Controller
      */
     public function store(StoreRoleRequest $request)
     {
-        //
+        $data = $request->validated();
+        $data['name'] = ucwords(strtolower($data['name']));
+        $role = Role::create($data);
+
+        return redirect()->back()->with('message', 'Role created! The password was send to ' . $role->email);
     }
 
     /**
@@ -37,7 +41,7 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
-        //
+        return view('roles.show', ['role' => $role]);
     }
 
     /**
@@ -45,7 +49,7 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        //
+        return view('roles.edit', ['role' => $role]);
     }
 
     /**
@@ -53,7 +57,16 @@ class RoleController extends Controller
      */
     public function update(UpdateRoleRequest $request, Role $role)
     {
-        //
+        $data = $request->validated();
+        $data['name'] = ucwords(strtolower($data['name']));
+        $role->update($data);
+        if (!$role->hasRole($data['type'])) {
+            $role = $role->roles->first();
+            $role->assignRole($data['type']);
+            $role->removeRole($role);
+        }
+        $request->session()->forget(['name', 'email']);
+        return redirect()->back()->with('message', 'Role updated');
     }
 
     /**
@@ -61,6 +74,7 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        //
+        $role->delete();
+        return redirect()->back()->with('message', 'Role deleted');
     }
 }

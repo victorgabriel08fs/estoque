@@ -16,13 +16,6 @@
                             </div>
                         </div>
                         <div class="datagrid-item">
-                            <div class="datagrid-title">Email</div>
-                            <div class="datagrid-content"><input type="search" name="email" value="{{ old('email') }}"
-                                    class="form-control" />
-
-                            </div>
-                        </div>
-                        <div class="datagrid-item">
                             <div class="datagrid-title">Status</div>
                             <select name="status" class="form-select">
                                 <option value="" hidden selected></option>

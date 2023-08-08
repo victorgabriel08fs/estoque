@@ -4,9 +4,9 @@
         @method('get')
         <div class="card mb-5">
             <div class="card-header">
-                <h2>Users</h2>
+                <h2>Categories</h2>
             </div>
-            <form action="{{ route('users.index') }}">
+            <form action="{{ route('categories.index') }}">
                 <div class="card-body">
                     <div class="datagrid">
                         <div class="datagrid-item">
@@ -26,8 +26,8 @@
                             <div class="datagrid-title">Status</div>
                             <select name="status" class="form-select">
                                 <option value="" hidden selected></option>
-                                <option @selected(old('status') == 'true' || $request->status == 'true') value="true">Active</option>
-                                <option @selected(old('status') == 'false' || $request->status == 'false') value="false">Desactive</option>
+                                <option @selected(old('status') == 'true') value="true">Active</option>
+                                <option @selected(old('status') == 'false') value="false">Desactive</option>
                             </select>
 
                         </div>
@@ -35,20 +35,20 @@
                 </div>
                 <div class="card-footer d-flex justify-content-between">
                     <div>
-                        <a href="{{ route('users.index') }}" class="btn btn-outline-secondary">Clear fields</a>
+                        <a href="{{ route('categories.index') }}" class="btn btn-outline-secondary">Clear fields</a>
                         <button type="submit" class="btn btn-outline-primary">Search</button>
                     </div>
             </form>
             <div>
-                @can('Create Users')
-                    @include('users._partials.new_modal')
+                @can('Create Categories')
+                    @include('categories._partials.new_modal')
                 @endcan
             </div>
         </div>
     </div>
     <div class="card">
         <div class="card-body">
-            @if ($users->count() == 0)
+            @if ($categories->count() == 0)
                 @include('_partials.empty')
             @else
                 <table class="table table-hover table-striped table-nowrap">
@@ -56,27 +56,24 @@
                         <tr>
                             <th class="col-1" scope="col">ID</th>
                             <th scope="col">Name</th>
-                            <th scope="col">Email</th>
+                            <th scope="col">Color</th>
                             <th scope="col">Status</th>
-                            <th scope="col">Role</th>
                             <th class="col-3" scope="col">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($users as $item)
+                        @foreach ($categories as $item)
                             <tr>
                                 <th scope="row">{{ $item['id'] }}</th>
                                 <td>{{ $item['name'] }}</td>
-                                <td>{{ $item['email'] }}</td>
+                                <td><input type="color" disabled value="{{ $item['color'] }}"></td>
                                 <td><span
-                                        class="status status-{{ $item->active() ? 'green' : 'red' }}">{{ $item->active() ? 'Active' : 'Desactive' }}</span>
-                                </td>
-                                <td><span
-                                        class="status status-{{ $item->hasRole('User') ? 'blue' : 'purple' }}">{{ $item->hasRole('User') ? 'User' : 'Admin' }}</span>
+                                        class="status status-{{ $item->active ? 'green' : 'red' }}">{{ $item->active ? 'Active' : 'Desactive' }}</span>
                                 </td>
                                 <td>
                                     <div class="btn-group">
-                                        <a class="btn btn-icon btn-primary" href="{{ route('users.show', $item) }}"><svg
+                                        <a class="btn btn-icon btn-primary"
+                                            href="{{ route('categories.show', $item) }}"><svg
                                                 xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye"
                                                 width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
                                                 stroke="currentColor" fill="none" stroke-linecap="round"
@@ -87,12 +84,14 @@
                                                     d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6">
                                                 </path>
                                             </svg></a>
-                                        @can('Edit Users')
-                                            @include('users._partials.edit_modal', ['user' => $item])
+                                        @can('Edit Categories')
+                                            @include('categories._partials.edit_modal', [
+                                                'category' => $item,
+                                            ])
                                         @endcan
-                                        @can('Delete Users')
+                                        @can('Delete Categories')
                                             <form id="form-{{ $item->id }}" method="post" class="btn btn-icon btn-danger"
-                                                action="{{ route('users.destroy', $item) }}">
+                                                action="{{ route('categories.destroy', $item) }}">
                                                 @csrf
                                                 @method('delete')
                                                 <svg onclick="$('#form-{{ $item->id }}').submit();" id="submit"
@@ -117,9 +116,9 @@
                 </table>
             @endif
         </div>
-        @if ($users->hasPages() != false)
+        @if ($categories->hasPages() != false)
             <div class="card-footer d-flex justify-content-center clearfix" style="padding-bottom: 0px;" ;>
-                {{ $users->links() }}
+                {{ $categories->links() }}
             </div>
         @endif
     </div>

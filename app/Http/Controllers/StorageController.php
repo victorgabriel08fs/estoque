@@ -13,7 +13,8 @@ class StorageController extends Controller
      */
     public function index()
     {
-        //
+        $storages = Storage::orderBy('name')->paginate(10);
+        return view('storages.index', ['storages' => $storages]);
     }
 
     /**
@@ -29,7 +30,11 @@ class StorageController extends Controller
      */
     public function store(StoreStorageRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        $storage = Storage::create($data);
+
+        return redirect()->back()->with('message', 'Storage created');
     }
 
     /**
@@ -37,7 +42,7 @@ class StorageController extends Controller
      */
     public function show(Storage $storage)
     {
-        //
+        return view('storages.show', ['storage' => $storage]);
     }
 
     /**
@@ -53,7 +58,11 @@ class StorageController extends Controller
      */
     public function update(UpdateStorageRequest $request, Storage $storage)
     {
-        //
+        $data = $request->validated();
+
+        $storage->update($data);
+
+        return redirect()->back()->with('message', 'Storage updated');
     }
 
     /**
@@ -61,6 +70,8 @@ class StorageController extends Controller
      */
     public function destroy(Storage $storage)
     {
-        //
+        $storage->delete();
+
+        return redirect()->back()->with('message', 'Storage deleted');
     }
 }

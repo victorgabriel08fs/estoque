@@ -8,4 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class Storage extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'phone',
+        'email',
+        'address',
+        'active',
+        'capacity'
+    ];
+
+    public function used()
+    {
+        return 0;
+    }
 }

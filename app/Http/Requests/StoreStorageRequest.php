@@ -11,7 +11,7 @@ class StoreStorageRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class StoreStorageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required'],
+            'phone' => ['nullable'],
+            'email' => ['nullable'],
+            'address' => ['nullable'],
+            'capacity' => ['required']
         ];
     }
 }

@@ -1,43 +1,35 @@
-<button type="button" class="btn btn-icon btn-secondary" data-bs-toggle="modal"
-    data-bs-target="#editModal{{ $user->id }}">
-    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24"
-        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-        stroke-linejoin="round">
-        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-        <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1">
-        </path>
-        <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z">
-        </path>
-        <path d="M16 5l3 3"></path>
-    </svg>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newModal">
+    New
 </button>
 
-<div class="modal" id="editModal{{ $user->id }}" tabindex="-1">
+<div class="modal" id="newModal" tabindex="-1">
     <div class="modal-dialog modal-lg" role="document">
-        <form action="{{ route('users.update', $user) }}" method="post">
+        <form action="{{ route('users.store') }}" method="post" enctype="multipart/form-data">
             @csrf
-            @method('patch')
+            @method('post')
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Edit user</h5>
+                    <h5 class="modal-title">New user</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-
+                    <div class="mb-3">
+                        <label class="form-label">Avatar</label>
+                        <input type="file" class="form-control" name="avatar" value="{{ old('avatar') }}" />
+                    </div>
                     <div class="mb-3">
                         <label class="form-label">Name</label>
-                        <input type="text" class="form-control @error('name') is-invalid @enderror" name="name"
-                            value="{{ old('name', $user->name) }}" placeholder="User's name" />
+                        <input type="text" class="form-control" name="name" value="{{ old('name') }}"
+                            placeholder="User's name" />
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Email address</label>
-                        <input type="email" class="form-control @error('email') is-invalid @enderror" name="email"
-                            value="{{ old('email', $user->email) }}" placeholder="User's email" />
+                        <input type="email" class="form-control" name="email" value="{{ old('email') }}"
+                            placeholder="User's email" />
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Phone number</label>
-                        <input type="text" class="form-control @error('phone') is-invalid @enderror"
-                            data-mask="0000000000000" name="phone" value="{{ old('phone', $user->phone) }}"
+                        <input type="text" class="form-control" name="phone" value="{{ old('phone') }}"
                             placeholder="User's phone" />
                     </div>
                 </div>
@@ -47,7 +39,7 @@
                         <div class="col-md-6">
                             <label class="form-selectgroup-item">
                                 <input type="radio" name="type" value="User" class="form-selectgroup-input"
-                                    @checked(old('type') == 'User' || old('type') != 'Admin' || (!session()->has('type') && $user->hasRole('User'))) />
+                                    @checked(old('type') == 'User' || old('type') != 'Admin') />
                                 <span class="form-selectgroup-label d-flex align-items-center p-3">
                                     <span class="me-3">
                                         <span class="form-selectgroup-check"></span>
@@ -61,7 +53,7 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-selectgroup-item">
-                                <input @checked(old('type') == 'Admin' || (!session()->has('type') && $user->hasRole('Admin'))) type="radio" name="type" value="Admin"
+                                <input @checked(old('type') == 'Admin') type="radio" name="type" value="Admin"
                                     class="form-selectgroup-input" />
                                 <span class="form-selectgroup-label d-flex align-items-center p-3">
                                     <span class="me-3">
@@ -79,8 +71,7 @@
                         <div class="col-lg-6">
                             <div class="mb-3">
                                 <label class="form-label">Permission end at</label>
-                                <input type="date" name="permission_end_at"
-                                    value="{{ old('permission_end_at', $user->permission_end_at->format('Y-m-d')) }}"
+                                <input type="date" name="permission_end_at" value="{{ old('permission_end_at') }}"
                                     class="form-control" />
                             </div>
                         </div>
@@ -91,14 +82,14 @@
                         Cancel
                     </a>
                     <button type="submit" class="btn btn-primary ms-auto" data-bs-dismiss="modal">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus"
-                            width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
-                            stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="24"
+                            height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                            stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                             <path d="M12 5l0 14"></path>
                             <path d="M5 12l14 0"></path>
                         </svg>
-                        Update user
+                        Create new user
                     </button>
                 </div>
             </div>

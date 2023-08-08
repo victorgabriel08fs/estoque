@@ -13,7 +13,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::orderBy('name')->paginate(10);
+
+        return view('categories.index', ['categories' => $categories]);
     }
 
     /**
@@ -29,7 +31,11 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        $category = Category::create($data);
+
+        return redirect()->back()->with('message', 'Category created');
     }
 
     /**
@@ -37,7 +43,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        return view('categories.show', ['category' => $category]);
     }
 
     /**
@@ -53,7 +59,11 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        //
+        $data = $request->validated();
+
+        $category->update($data);
+
+        return redirect()->back()->with('message', 'Category updated');
     }
 
     /**
@@ -61,6 +71,8 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+
+        return redirect()->back()->with('message', 'Category deleted');
     }
 }

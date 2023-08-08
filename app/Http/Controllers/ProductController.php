@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\Category;
 
 class ProductController extends Controller
 {
@@ -13,7 +14,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $products = Product::orderBy('name')->paginate(10);
+        $categories = Category::orderBy('name')->get();
+
+        return view('products.index', ['products' => $products, 'categories' => $categories]);
     }
 
     /**
@@ -29,7 +33,11 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        $product = Product::create($data);
+
+        return redirect()->back()->with('message', 'Product created');
     }
 
     /**
@@ -37,7 +45,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        return view('products.show', ['product' => $product]);
     }
 
     /**
@@ -53,7 +61,11 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        //
+        $data = $request->validated();
+
+        $product->update($data);
+
+        return redirect()->back()->with('message', 'Product updated');
     }
 
     /**
@@ -61,6 +73,8 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+
+        return redirect()->back()->with('message', 'Product deleted');
     }
 }

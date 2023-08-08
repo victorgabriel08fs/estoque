@@ -4,78 +4,39 @@
 
 <div class="modal" id="newModal" tabindex="-1">
     <div class="modal-dialog modal-lg" role="document">
-        <form action="{{ route('users.store') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('products.store') }}" method="post" enctype="multipart/form-data">
             @csrf
-            @method('post')
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">New user</h5>
+                    <h5 class="modal-title">New product</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label class="form-label">Avatar</label>
-                        <input type="file" class="form-control" name="avatar" value="{{ old('avatar') }}" />
+                        <label class="form-label">Image</label>
+                        <input type="file" class="form-control" name="image" value="{{ old('image') }}" />
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Name</label>
-                        <input type="text" class="form-control" name="name" value="{{ old('name') }}"
-                            placeholder="User's name" />
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" name="name"
+                            value="{{ old('name') }}" placeholder="Product's name" />
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Email address</label>
-                        <input type="email" class="form-control" name="email" value="{{ old('email') }}"
-                            placeholder="User's email" />
+                        <label class="form-label">Describe</label>
+                        <input type="text" class="form-control @error('describe') is-invalid @enderror"
+                            name="describe" value="{{ old('describe') }}" placeholder="Product's describe" />
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Phone number</label>
-                        <input type="text" class="form-control" name="phone" value="{{ old('phone') }}"
-                            placeholder="User's phone" />
+                        <label class="form-label">Category</label>
+                        <select name="category_id" class="form-select">
+                            <option value="" hidden selected></option>
+                            @foreach ($categories as $category)
+                                <option @selected(old('category_id') == $category->id) value="{{ $category->id }}">{{ $category->name }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
-                </div>
-                <div class="modal-body">
-                    <label class="form-label">User's type</label>
-                    <div class="form-selectgroup-boxes row mb-3">
-                        <div class="col-md-6">
-                            <label class="form-selectgroup-item">
-                                <input type="radio" name="type" value="User" class="form-selectgroup-input"
-                                    @checked(old('type') == 'User' || old('type') != 'Admin') />
-                                <span class="form-selectgroup-label d-flex align-items-center p-3">
-                                    <span class="me-3">
-                                        <span class="form-selectgroup-check"></span>
-                                    </span>
-                                    <span class="form-selectgroup-label-content">
-                                        <span class="form-selectgroup-title strong mb-1">User</span>
-                                        <span class="d-block text-secondary">Can access the items manegement</span>
-                                    </span>
-                                </span>
-                            </label>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-selectgroup-item">
-                                <input @checked(old('type') == 'Admin') type="radio" name="type" value="Admin"
-                                    class="form-selectgroup-input" />
-                                <span class="form-selectgroup-label d-flex align-items-center p-3">
-                                    <span class="me-3">
-                                        <span class="form-selectgroup-check"></span>
-                                    </span>
-                                    <span class="form-selectgroup-label-content">
-                                        <span class="form-selectgroup-title strong mb-1">Admin</span>
-                                        <span class="d-block text-secondary">Can access all the system items</span>
-                                    </span>
-                                </span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="mb-3">
-                                <label class="form-label">Permission end at</label>
-                                <input type="date" name="permission_end_at" value="{{ old('permission_end_at') }}"
-                                    class="form-control" />
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
                 <div class="modal-footer">
                     <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
@@ -89,7 +50,7 @@
                             <path d="M12 5l0 14"></path>
                             <path d="M5 12l14 0"></path>
                         </svg>
-                        Create new user
+                        Update product
                     </button>
                 </div>
             </div>

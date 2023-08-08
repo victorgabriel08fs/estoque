@@ -26,7 +26,8 @@
                             @foreach ($permissions as $permission)
                                 @if ($loop->iteration <= $permissions->count() / 2)
                                     <label class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" @checked(is_array(old('permissions') && in_array($permission->id, old('permissions'))))>
+                                        <input name="permissions[]" value="{{ $permission->name }}"
+                                            class="form-check-input" type="checkbox" @checked(is_array(old('permissions') && in_array($permission->id, old('permissions'))))>
                                         <span class="form-check-label">{{ $permission->name }}</span>
                                     </label>
                                 @endif
@@ -36,7 +37,8 @@
                             @foreach ($permissions as $permission)
                                 @if ($loop->iteration > $permissions->count() / 2)
                                     <label class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" @checked(is_array(old('permissions') && in_array($permission->id, old('permissions'))))>
+                                        <input name="permissions[]" value="{{ $permission->name }}"
+                                            class="form-check-input" type="checkbox" @checked(is_array(old('permissions') && in_array($permission->id, old('permissions'))))>
                                         <span class="form-check-label">{{ $permission->name }}</span>
                                     </label>
                                 @endif

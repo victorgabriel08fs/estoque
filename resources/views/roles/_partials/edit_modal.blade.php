@@ -36,7 +36,8 @@
                             @foreach ($permissions as $permission)
                                 @if ($loop->iteration <= $permissions->count() / 2)
                                     <label class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" @checked($role->hasPermissionTo($permission->name))>
+                                        <input name="permissions[]" value="{{ $permission->name }}"
+                                            class="form-check-input" type="checkbox" @checked($role->hasPermissionTo($permission->name))>
                                         <span class="form-check-label">{{ $permission->name }}</span>
                                     </label>
                                 @endif
@@ -46,7 +47,8 @@
                             @foreach ($permissions as $permission)
                                 @if ($loop->iteration > $permissions->count() / 2)
                                     <label class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" @checked($role->hasPermissionTo($permission->name))>
+                                        <input name="permissions[]" value="{{ $permission->name }}"
+                                            class="form-check-input" type="checkbox" @checked($role->hasPermissionTo($permission->name))>
                                         <span class="form-check-label">{{ $permission->name }}</span>
                                     </label>
                                 @endif

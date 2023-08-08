@@ -14,6 +14,7 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
+        $superAdminRole = Role::create(['name' => 'Super Admin', 'guard_name' => 'web']);
         $adminRole = Role::create(['name' => 'Admin', 'guard_name' => 'web']);
         $userRole = Role::create(['name' => 'User', 'guard_name' => 'web']);
 
@@ -21,7 +22,9 @@ class RoleSeeder extends Seeder
         foreach ($permissions as $permission) {
             if ($permission->name == 'View Products')
                 $userRole->givePermissionTo($permission);
-            $adminRole->givePermissionTo($permission);
+            if ($permission->name != 'Edit Settings' && $permission->name != 'Create Settings' && $permission->name != 'Delete Settings')
+                $adminRole->givePermissionTo($permission);
+            $superAdminRole->givePermissionTo($permission);
         }
     }
 }

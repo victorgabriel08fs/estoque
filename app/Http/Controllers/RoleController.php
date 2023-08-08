@@ -33,6 +33,10 @@ class RoleController extends Controller
         $data['name'] = ucwords(strtolower($data['name']));
         $role = Role::create($data);
 
+        foreach ($data['permissions'] as $permission) {
+            $role->givePermissionTo($permission);
+        }
+
         return redirect()->back()->with('message', 'Role created! The password was send to ' . $role->email);
     }
 
@@ -41,7 +45,6 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
-        dd($role->hasPermissionTo('View Users'));
         return view('roles.show', ['role' => $role]);
     }
 
@@ -58,15 +61,25 @@ class RoleController extends Controller
      */
     public function update(UpdateRoleRequest $request, Role $role)
     {
+        if ($role->name == "Super Admin") {
+            return redirect()->back()->with('error', 'This role cannot be changed');
+        }
+
         $data = $request->validated();
         $data['name'] = ucwords(strtolower($data['name']));
         $role->update($data);
-        if (!$role->hasRole($data['type'])) {
-            $role = $role->roles->first();
-            $role->assignRole($data['type']);
-            $role->removeRole($role);
+
+        $permissions = Permission::all();
+
+        foreach ($permissions as $permission) {
+            if (!in_array($permission->name, $data['permissions']) && $role->hasPermissionTo($permission->name)) {
+                $role->revokePermissionTo($permission->name);
+            } elseif (in_array($permission->name, $data['permissions']) && !$role->hasPermissionTo($permission->name)) {
+                $role->givePermissionTo($permission->name);
+            }
         }
-        $request->session()->forget(['name', 'email']);
+
+        $request->session()->forget(['name']);
         return redirect()->back()->with('message', 'Role updated');
     }
 
@@ -75,6 +88,10 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
+        if ($role->name == "Super Admin") {
+            return redirect()->back()->with('error', 'This role cannot be changed');
+        }
+
         $role->delete();
         return redirect()->back()->with('message', 'Role deleted');
     }

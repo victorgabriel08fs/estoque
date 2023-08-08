@@ -6,7 +6,8 @@
         </button>
         <h1 class="navbar-brand navbar-brand-autodark">
             <a href=".">
-                <img src="./static/logo.svg" width="110" height="32" alt="Tabler" class="navbar-brand-image">
+                <img src="{{ asset('/images/logo.png') }}" style="width:5vw; height:auto" alt="Stock Manager"
+                    class="rounded-4 border border-3 border-success">
             </a>
         </h1>
         <div class="navbar-nav flex-row d-lg-none">

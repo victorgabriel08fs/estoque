@@ -3,7 +3,8 @@
 @section('content')
     <div class="text-center mb-4">
         <a href="." class="navbar-brand navbar-brand-autodark">
-            <img src="./static/logo.svg" width="110" height="32" alt="Tabler" class="navbar-brand-image">
+            <img src="{{ asset('/images/logo.png') }}" style="width:10vw; height:auto" alt="Stock Manager"
+                class="navbar-brand-image rounded-4 border border-4 border-success">
         </a>
     </div>
     <div class="card card-md">

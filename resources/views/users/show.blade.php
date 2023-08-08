@@ -9,7 +9,7 @@
                         <div class="datagrid-content">
                             <div class="d-flex align-items-center">
                                 <span class="avatar avatar-xs me-2 rounded"
-                                    style="background-image: url({{ asset('/images/logo.png') }})"></span>
+                                    style="background-image: url({{ asset($user->avatar != null ? 'storage/' . $user->avatar : 'images/avatar.png') }})"></span>
                                 {{ $user->name }}
                             </div>
                         </div>

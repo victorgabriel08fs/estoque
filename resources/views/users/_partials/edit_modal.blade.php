@@ -14,7 +14,7 @@
 
 <div class="modal" id="editModal{{ $user->id }}" tabindex="-1">
     <div class="modal-dialog modal-lg" role="document">
-        <form action="{{ route('users.update', $user) }}" method="post">
+        <form action="{{ route('users.update', $user) }}" method="post" enctype="multipart/form-data">
             @csrf
             @method('patch')
             <div class="modal-content">

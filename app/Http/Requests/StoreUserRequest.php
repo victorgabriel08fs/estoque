@@ -23,10 +23,11 @@ class StoreUserRequest extends FormRequest
     {
         return [
             'name' => ['required'],
-            'email' => ['required', 'email'],
-            'phone' => ['required', 'numeric'],
-            'permission_end_at' => ['required', 'date'],
+            'email' => ['required'],
+            'phone' => ['required'],
+            'permission_end_at' => ['required'],
             'type' => ['required'],
+            'avatar' => ['nullable']
         ];
     }
 }

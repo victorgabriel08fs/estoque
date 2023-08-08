@@ -35,9 +35,12 @@ class UserController extends Controller
         $data['name'] = ucwords(strtolower($data['name']));
         $data['password'] = bcrypt(User::createPassword());
 
+
         $user = User::create($data);
 
-        $user->assignRole($data['type']);
+        $avatar = $request->file('avatar')->store('users/' . $user->id, 'public');
+        $user->update(['avatar' => $avatar]);
+        $user->assignRole($data['type'] ?? 'User');
 
         return redirect()->back()->with('message', 'User created! The password was send to ' . $user->email);
     }

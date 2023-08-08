@@ -22,7 +22,7 @@ class RoleSeeder extends Seeder
         foreach ($permissions as $permission) {
             if ($permission->name == 'View Products')
                 $userRole->givePermissionTo($permission);
-            if ($permission->name != 'Edit Settings' && $permission->name != 'Create Settings' && $permission->name != 'Delete Settings')
+            if (!str_contains($permission->name, 'Delete') && $permission->name != 'Edit Settings' && $permission->name != 'Create Settings')
                 $adminRole->givePermissionTo($permission);
             $superAdminRole->givePermissionTo($permission);
         }

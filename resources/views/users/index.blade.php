@@ -72,7 +72,7 @@
                                         class="status status-{{ $item->active() ? 'green' : 'red' }}">{{ $item->active() ? 'Active' : 'Desactive' }}</span>
                                 </td>
                                 <td><span
-                                        class="status status-{{ $item->hasRole('User') ? 'blue' : 'purple' }}">{{ $item->hasRole('User') ? 'User' : 'Admin' }}</span>
+                                        class="status status-{{ ($item->hasRole('User') ? 'blue' : $item->hasRole('Admin')) ? 'purple' : 'red' }}">{{ $item->hasRole('User') ? 'User' : ($item->hasRole('Admin') ? 'Admin' : 'Super Admin') }}</span>
                                 </td>
                                 <td>
                                     <div class="btn-group">
